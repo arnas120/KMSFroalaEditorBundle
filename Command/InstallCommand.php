@@ -16,10 +16,12 @@ class InstallCommand extends Command
     {
         $this
             ->setName('froala:install')
-            ->addArgument('path', InputArgument::OPTIONAL, 'Absolute path where to install Froala editor', dirname(__DIR__) . '/Resources/public/froala_editor')
-            ->addOption('tag', null, InputOption::VALUE_REQUIRED, 'Froala editor tag to install (eg. "v3.0.0")', 'master')
-            ->addOption('clear', null, InputOption::VALUE_NONE, 'Allow the command to clear a previous install if the path already exists')
-        ;
+            ->addArgument('path', InputArgument::OPTIONAL, 'Absolute path where to install Froala editor',
+                dirname(__DIR__) . '/Resources/public/froala_editor')
+            ->addOption('tag', null, InputOption::VALUE_REQUIRED, 'Froala editor tag to install (eg. "v3.0.0")',
+                'master')
+            ->addOption('clear', null, InputOption::VALUE_NONE,
+                'Allow the command to clear a previous install if the path already exists');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -34,9 +36,10 @@ class InstallCommand extends Command
     {
         $output->write('Downloading Froala Editor...');
         $httpClient = HttpClient::create();
-        $zip = $httpClient->request('GET', 'https://github.com/froala/wysiwyg-editor/archive/' . $tag . '.zip')->getContent();
+        $zip = $httpClient->request('GET',
+            'https://github.com/froala/wysiwyg-editor/archive/' . $tag . '.zip')->getContent();
 
-        $path = (string) tempnam(sys_get_temp_dir(), 'froala-' . $tag . '.zip');
+        $path = (string)tempnam(sys_get_temp_dir(), 'froala-' . $tag . '.zip');
         if (!@file_put_contents($path, $zip)) {
             throw new \RuntimeException(sprintf('Unable to write Froala ZIP archive to "%s".', $path));
         }
@@ -54,7 +57,8 @@ class InstallCommand extends Command
         $fileSystem->exists($outputPath);
 
         if ($fileSystem->exists($outputPath) && !$clear) {
-            $output->writeln(sprintf("\nThe directory \"%s\" already exists and the clear option is not enabled, aborting.", $outputPath));
+            $output->writeln(sprintf("\nThe directory \"%s\" already exists and the clear option is not enabled, aborting.",
+                $outputPath));
         } else {
             if (is_dir($outputPath)) {
                 $fileSystem->remove($outputPath);
