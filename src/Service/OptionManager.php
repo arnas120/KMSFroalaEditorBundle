@@ -91,7 +91,8 @@ class OptionManager
         $videoUploadURLParams = $options['videoUploadURLParams'] ?? [];
 
         if (null !== $imageManagerDeleteURL) {
-            $options['imageManagerDeleteURL'] = $this->router->generate($imageManagerDeleteURL, $imageManagerDeleteURLParams);
+            $options['imageManagerDeleteURL'] = $this->router->generate($imageManagerDeleteURL,
+                $imageManagerDeleteURLParams);
         }
 
         if (null !== $imageManagerLoadURL) {
@@ -120,7 +121,11 @@ class OptionManager
         $imageUploadParams = $options['imageUploadParams'] ?? [];
         $imageManagerLoadParams = $options['imageManagerLoadParams'] ?? [];
         $imageManagerDeleteParams = $options['imageManagerDeleteParams'] ?? [];
-        $arrCustomParams = ['folder' => $options['imageUploadFolder'], 'path' => $options['imageUploadPath'], 'public_dir' => $options['publicDir']];
+        $arrCustomParams = [
+            'folder' => $options['imageUploadFolder'],
+            'path' => $options['imageUploadPath'],
+            'public_dir' => $options['publicDir']
+        ];
 
         // Always adding these params breaks s3 signing in some cases
         if (!\array_key_exists('imageUploadToS3', $options)) {
@@ -133,7 +138,11 @@ class OptionManager
     private function addFileCustomParams(array &$options): void
     {
         $fileUploadParams = $options['fileUploadParams'] ?? [];
-        $arrCustomParams = ['folder' => $options['fileUploadFolder'], 'path' => $options['fileUploadPath'], 'public_dir' => $options['publicDir']];
+        $arrCustomParams = [
+            'folder' => $options['fileUploadFolder'],
+            'path' => $options['fileUploadPath'],
+            'public_dir' => $options['publicDir']
+        ];
 
         $options['fileUploadParams'] = array_merge($fileUploadParams, $arrCustomParams);
     }
@@ -141,7 +150,11 @@ class OptionManager
     private function addVideoCustomParams(array &$options): void
     {
         $videoUploadParams = $options['videoUploadParams'] ?? [];
-        $arrCustomParams = ['folder' => $options['videoUploadFolder'], 'path' => $options['videoUploadPath'], 'public_dir' => $options['publicDir']];
+        $arrCustomParams = [
+            'folder' => $options['videoUploadFolder'],
+            'path' => $options['videoUploadPath'],
+            'public_dir' => $options['publicDir']
+        ];
 
         $options['videoUploadParams'] = array_merge($videoUploadParams, $arrCustomParams);
     }

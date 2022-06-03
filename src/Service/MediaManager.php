@@ -12,9 +12,16 @@ class MediaManager
     public static $allowedImageFileExtensions = ['gif', 'jpeg', 'jpg', 'png'];
     public static $allowedImageFileMimeTypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
 
-    public function uploadImage(FileBag $fileBag, string $rootDir, string $publicDir, string $basePath, string $configuredFolder, string $requestPath): JsonResponse
-    {
-        return $this->handleFileUpload($fileBag, $rootDir, $publicDir, $basePath, $configuredFolder, $requestPath, 'image');
+    public function uploadImage(
+        FileBag $fileBag,
+        string $rootDir,
+        string $publicDir,
+        string $basePath,
+        string $configuredFolder,
+        string $requestPath
+    ): JsonResponse {
+        return $this->handleFileUpload($fileBag, $rootDir, $publicDir, $basePath, $configuredFolder, $requestPath,
+            'image');
     }
 
     public function deleteImage(string $imageSrc, string $rootDir, string $publicDir, string $configuredFolder): void
@@ -26,8 +33,13 @@ class MediaManager
         unlink($folder . '/' . $fileName);
     }
 
-    public function loadImages(string $rootDir, string $publicDir, string $basePath, string $configuredFolder, string $requestPath): JsonResponse
-    {
+    public function loadImages(
+        string $rootDir,
+        string $publicDir,
+        string $basePath,
+        string $configuredFolder,
+        string $requestPath
+    ): JsonResponse {
         $response = new JsonResponse();
         $arrImage = [];
         $folder = $this->obtainFolder($rootDir, $publicDir, $configuredFolder);
@@ -48,13 +60,25 @@ class MediaManager
         return $response;
     }
 
-    public function uploadFile(FileBag $fileBag, string $rootDir, string $publicDir, string $basePath, string $configuredFolder, string $requestPath): JsonResponse
-    {
+    public function uploadFile(
+        FileBag $fileBag,
+        string $rootDir,
+        string $publicDir,
+        string $basePath,
+        string $configuredFolder,
+        string $requestPath
+    ): JsonResponse {
         return $this->handleFileUpload($fileBag, $rootDir, $publicDir, $basePath, $configuredFolder, $requestPath);
     }
 
-    public function uploadVideo(FileBag $fileBag, string $rootDir, string $publicDir, string $basePath, string $configuredFolder, string $requestPath): JsonResponse
-    {
+    public function uploadVideo(
+        FileBag $fileBag,
+        string $rootDir,
+        string $publicDir,
+        string $basePath,
+        string $configuredFolder,
+        string $requestPath
+    ): JsonResponse {
         return $this->handleFileUpload($fileBag, $rootDir, $publicDir, $basePath, $configuredFolder, $requestPath);
     }
 
@@ -71,8 +95,15 @@ class MediaManager
         return $basePath . '/' . $path;
     }
 
-    private function handleFileUpload(FileBag $fileBag, string $rootDir, string $publicDir, string $basePath, string $configuredFolder, string $requestPath, ?string $specificType = null): JsonResponse
-    {
+    private function handleFileUpload(
+        FileBag $fileBag,
+        string $rootDir,
+        string $publicDir,
+        string $basePath,
+        string $configuredFolder,
+        string $requestPath,
+        ?string $specificType = null
+    ): JsonResponse {
         $folder = $this->obtainFolder($rootDir, $publicDir, $configuredFolder);
         $path = $this->obtainPath($basePath, $requestPath);
         $response = new JsonResponse();
@@ -95,7 +126,8 @@ class MediaManager
         }
 
         // Check image type.
-        if ('image' === $specificType && (!\in_array($file->guessExtension(), static::$allowedImageFileExtensions, true) || !\in_array($file->getMimeType(), static::$allowedImageFileMimeTypes, true))) {
+        if ('image' === $specificType && (!\in_array($file->guessExtension(), static::$allowedImageFileExtensions,
+                    true) || !\in_array($file->getMimeType(), static::$allowedImageFileMimeTypes, true))) {
             $response->setData([
                 'error' => 'File not supported.',
             ]);
@@ -104,7 +136,7 @@ class MediaManager
         }
 
         // Generates random name.
-        $name = sha1(uniqid((string) mt_rand(), true)) . '.' . $file->guessExtension();
+        $name = sha1(uniqid((string)mt_rand(), true)) . '.' . $file->guessExtension();
 
         // Save file in the folder.
         $file->move($folder, $name);

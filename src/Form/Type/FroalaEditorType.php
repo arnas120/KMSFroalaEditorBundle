@@ -31,8 +31,11 @@ class FroalaEditorType extends AbstractType
      */
     private $pluginProvider;
 
-    public function __construct(ParameterBagInterface $parameterBag, OptionManager $optionManager, PluginProvider $pluginProvider)
-    {
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        OptionManager $optionManager,
+        PluginProvider $pluginProvider
+    ) {
         $this->parameterBag = $parameterBag;
         $this->optionManager = $optionManager;
         $this->pluginProvider = $pluginProvider;
@@ -71,7 +74,8 @@ class FroalaEditorType extends AbstractType
                     $options['froala_' . $profileKey] = $profileOption;
                 }
             } else {
-                throw new \InvalidArgumentException(sprintf('Unrecognized profile "%s". Available profiles are "%s".', $profile, implode('"", "', array_keys($profiles))));
+                throw new \InvalidArgumentException(sprintf('Unrecognized profile "%s". Available profiles are "%s".',
+                    $profile, implode('"", "', array_keys($profiles))));
             }
         }
 
